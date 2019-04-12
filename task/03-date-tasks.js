@@ -94,7 +94,7 @@ function timeSpanToString(startDate, endDate) {
    let min = ("0" + date.getUTCMinutes()).slice(-2);
    let hour = ("0" + date.getUTCHours()).slice(-2);
 
-   return `${hour}:${min}:${sec}.${mil}`;
+   return hour + ':' + min + ':' + sec + '.' + mil;
 }
 
 
