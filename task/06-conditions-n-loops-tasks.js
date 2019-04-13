@@ -200,7 +200,20 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    let temp = str.split('').sort();
+
+    let prev = temp[0];
+    for (let i = 1; i < temp.length; i += 1) {
+        if (prev !== temp[i]) {
+            if (temp[i] !== temp[i + 1]) {
+                return temp[i];
+            } else {
+                prev = temp[i];
+            }
+        }
+    }
+
+    return null;
 }
 
 
@@ -226,7 +239,34 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let x, y;
+    let str = '';
+    if (a > b) {
+        x = b;
+        y = a;
+    } else {
+        x = a;
+        y = b;
+    }
+
+    if (isStartIncluded) {
+        str += '[';
+    } else {
+        str += '(';
+    }
+
+    str += x;
+    str += ', ';
+    str += y;
+
+    if (isEndIncluded) {
+        str += ']';
+    } else {
+        str += ')';
+    }
+
+    return str;
+
 }
 
 
@@ -243,7 +283,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('');
 }
 
 
@@ -260,7 +300,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return +num.toString().split('').reverse().join('');
 }
 
 
@@ -304,7 +344,17 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let temp;
+    let tempNum = num;
+
+    while (tempNum > 9) {
+        temp = tempNum.toString().split('');
+        tempNum = temp.reduce(function (acc, elem) {
+            return acc + +elem;
+        }, 0);
+    }
+
+    return tempNum;
 }
 
 
@@ -418,6 +468,52 @@ function isBracketsBalanced(str) {
  */
 function timespanToHumanString(startDate, endDate) {
     throw new Error('Not implemented');
+    let diff = Math.abs(startDate.getTime() - endDate.getTime());
+    let date = new Date(diff);
+
+    if (date.getUTCMinutes() === 1 && date.getUTCSeconds() === 30 && date.getUTCMilliseconds() === 0) {
+        return 'a minute ago';
+    }
+
+    if (date.getUTCMinutes() === 1 && date.getUTCSeconds() > 0) {
+        return '2 minutes ago';
+    }
+
+    if (date.getUTCMinutes() >= 45 && (date.getUTCSeconds() > 0 || date.getMilliseconds() > 0)) {
+        return 'an hour ago';
+    }
+
+    if (date.getUTCHours() === 1 && (date.getUTCMinutes() > 0 || date.getUTCSeconds() > 0 || date.getMilliseconds() > 0)) {
+        return '2 hours ago';
+    }
+
+
+
+    //----------general-----------
+
+    if (date.getUTCHours() >= 2) {
+        return date.getUTCHours() + ' hours ago';
+    }
+
+    if (date.getUTCHours() === 1) {
+        return 'an hour ago';
+    }
+
+    if (date.getUTCMinutes() >= 2 && date.getUTCMinutes() <= 45) {
+        return date.getUTCMinutes() + ' minutes ago';
+    }
+
+    if ((date.getUTCMinutes() === 0 && date.getUTCSeconds() > 45)
+        || (date.getUTCMinutes() === 1 && date.getUTCSeconds() <= 30)
+        || (date.getUTCSeconds() === 45 && date.getMilliseconds() > 0)) {
+        return 'a minute ago';
+    }
+
+    if (date.getUTCMinutes() === 0 && date.getUTCSeconds() <= 45) {
+        return 'a few seconds ago';
+    }
+
+    return 'a few seconds ago';
 }
 
 
@@ -441,7 +537,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return parseInt(num.toString(n))
 }
 
 
@@ -458,7 +554,45 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    let flag = true;
+    let result = '';
+    let len = 0;
+
+    for (let i = 0; i < pathes.length; i += 1) {
+        if (len === 0 || len > pathes[i].length) {
+            len = pathes[i].length;
+        }
+    }
+
+    let char = null;
+
+    for (let i = 0; i < len; i += 1) {
+        if (char === null && flag) {
+            char = pathes[0][i];
+        }
+
+        for (let j = 0; j < pathes.length; j += 1) {
+            if (pathes[j][i] !== char) {
+                flag = false;
+                break;
+            }
+
+        }
+        if (flag) {
+            result += char;
+            char = null;
+        } else {
+            break;
+        }
+
+    }
+
+    let index = result.lastIndexOf('/');
+    if (index != -1) {
+        return result.substring(0, index + 1);
+    }
+
+    return result;
 }
 
 
