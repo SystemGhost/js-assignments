@@ -25,7 +25,7 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.acos(x))
  *
  */
-function getComposition(f,g) {
+function getComposition(f, g) {
     throw new Error('Not implemented');
 }
 
@@ -47,7 +47,11 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    let power = exponent;
+
+    return function (num) {
+        return Math.pow(num, power);
+    }
 }
 
 
@@ -171,7 +175,12 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    let id = startFrom - 1;
+
+    return function () {
+        id += 1;
+        return id;
+    }
 }
 
 
